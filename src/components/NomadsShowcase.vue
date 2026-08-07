@@ -2,10 +2,10 @@
   <section class="nomads-showcase-section">
     <div class="showcase-header">
       <div class="header-left">
-        <h2 class="showcase-title">楹联创作与对仗押韵实战模板库</h2>
-        <p class="showcase-subtitle">精选节日新春、商业开业、婚嫁寿诞与书房自勉对联，点击“一键套用”快速创作</p>
+        <h2 class="showcase-title">实战案例与模板库 (Nomads Showcase)</h2>
+        <p class="showcase-subtitle">精选高频实战场景，点击“一键套用”快速生成高质量结果</p>
       </div>
-      <span class="showcase-badge">已收录 {{ showcaseItems.length }} 个楹联精选模板</span>
+      <span class="showcase-badge">已收录 {{ showcaseItems.length }} 个实战模板</span>
     </div>
 
     <div class="showcase-grid">
@@ -41,8 +41,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+const props = defineProps<{
+  appTitle?: string;
+  isImage?: boolean;
+}>();
+
 const emit = defineEmits<{
-  (e: 'apply-template', payload: { prompt: string; duilianType?: string; length?: string; style?: string }): void;
+  (e: 'apply-template', payload: { prompt: string; style?: string }): void;
 }>();
 
 export interface ShowcaseItem {
@@ -50,80 +55,104 @@ export interface ShowcaseItem {
   tag: string;
   title: string;
   prompt: string;
-  duilianType?: string;
-  length?: string;
   style?: string;
   usageCount: string;
 }
 
-const showcaseItems = computed<ShowcaseItem[]>(() => [
-  {
-    id: 'duilian-1',
-    tag: '新春贺岁',
-    title: '龙年新春大吉七言喜庆楹联',
-    prompt: '为家庭客厅大门创作一套龙年新春七言喜庆楹联，包含上联、下联与四字横批，表达辞旧迎新、阖家安康、事业蒸蒸日上的吉祥寓意。',
-    duilianType: '新春贺岁与节日楹联',
-    length: '七言联',
-    style: '通俗喜庆',
-    usageCount: '58.9k'
-  },
-  {
-    id: 'duilian-2',
-    tag: '商业开业',
-    title: '科技公司开业大吉九言商业吉联',
-    prompt: '为人工智能高科技公司开业拟定九言商业大吉联，融入创新突破、智启未来、商路广进的宏大意境，附平仄与词性对仗分析。',
-    duilianType: '行业开业与商业吉联',
-    length: '九言联',
-    style: '气势磅礴',
-    usageCount: '46.2k'
-  },
-  {
-    id: 'duilian-3',
-    tag: '婚嫁百年',
-    title: '婚嫁喜庆百年好合典雅古风对联',
-    prompt: '为一对热爱传统文化的新人撰写百年好合喜庆对联，要求词藻典雅古风、上仄下平合律，附典故成语赏析与横批。',
-    duilianType: '婚嫁喜庆与寿诞对联',
-    length: '七言联',
-    style: '典雅古风',
-    usageCount: '39.8k'
-  },
-  {
-    id: 'duilian-4',
-    tag: '书房自勉',
-    title: '书房修身养性五言自勉联',
-    prompt: '为个人书房撰写五言修身养性自勉联，体现淡泊明志、潜心学问、静以修身的高雅情调，附平水韵平仄校验。',
-    duilianType: '名胜古迹与书房自勉联',
-    length: '五言联',
-    style: '清丽婉约',
-    usageCount: '34.5k'
-  },
-  {
-    id: 'duilian-5',
-    tag: '名胜长联',
-    title: '名胜古迹观景楼台登高抒怀长联',
-    prompt: '为江南水乡古镇观景楼阁创作一套写景抒怀长联，融入四季风光与人文历史韵味，附对仗音律与适用悬挂场景指导。',
-    duilianType: '名胜古迹与书房自勉联',
-    length: '长联',
-    style: '典雅古风',
-    usageCount: '29.1k'
-  },
-  {
-    id: 'duilian-6',
-    tag: '寿诞祝寿',
-    title: '八十大寿松柏长青尊亲祝寿联',
-    prompt: '为老父亲八十大寿拟定祝寿楹联，表达福如东海、寿比南山、松柏长青的深厚情谊，要求文采典雅、意境深远。',
-    duilianType: '婚嫁喜庆与寿诞对联',
-    length: '七言联',
-    style: '典雅古风',
-    usageCount: '27.4k'
+// 模拟实战案例数据库（支持根据文本/图像类及应用主题切换）
+const showcaseItems = computed<ShowcaseItem[]>(() => {
+  if (props.isImage) {
+    return [
+      {
+        id: 'img-1',
+        tag: '写真肖像',
+        title: '商务精英形象照',
+        prompt: '高端写字楼背景，身穿深蓝色西装，眼神自信专注，赛博朋克光影效果',
+        style: '<photography>',
+        usageCount: '18.5k'
+      },
+      {
+        id: 'img-2',
+        tag: '概念插画',
+        title: '未来科幻城市海报',
+        prompt: '霓虹灯光的赛博朋克立体城市，飞行汽车，高品质概念插画，8k分辨率',
+        style: '<illustration>',
+        usageCount: '24.1k'
+      },
+      {
+        id: 'img-3',
+        tag: '二次元动漫',
+        title: '日系国潮动漫角色',
+        prompt: '穿着现代汉服的国风少年，手持纸伞，水彩漫感，唯美光感与柔光滤镜',
+        style: '<anime>',
+        usageCount: '15.9k'
+      },
+      {
+        id: 'img-4',
+        tag: '水彩艺术',
+        title: '治愈系自然风景画',
+        prompt: '晨雾中的森林湖泊，阳光穿透树林，水彩渐变质感，温馨治愈风格',
+        style: '<watercolor>',
+        usageCount: '12.3k'
+      }
+    ];
+  } else {
+    return [
+      {
+        id: 'text-1',
+        tag: '职场总结',
+        title: '周报 OKR 成果提炼',
+        prompt: '本周完成了核心模块优化与线上异常排查，请帮我梳理为具备量化指标的 OKR 汇报文案',
+        style: '专业干练，结果导向',
+        usageCount: '32.8k'
+      },
+      {
+        id: 'text-2',
+        tag: '高情商沟通',
+        title: '拒绝不合理加班话术',
+        prompt: '领导在周末突然布置非紧急任务，如何高情商、委婉且有理有据地推迟到工作日处理？',
+        style: '高情商，委婉，有情调',
+        usageCount: '28.4k'
+      },
+      {
+        id: 'text-3',
+        tag: '短视频文案',
+        title: '知识干货吸睛开头',
+        prompt: '准备制作一条关于高效学习法的短视频，设计 3 个能在前 3 秒留住用户的爆款口播开头',
+        style: '专业干练，结果导向',
+        usageCount: '45.1k'
+      },
+      {
+        id: 'text-4',
+        tag: '商务公文',
+        title: '跨部门协同申请函',
+        prompt: '因项目上线需要研发部门配合联调，撰写一份正式、严谨且明确时间节点的协同申请书',
+        style: '专业干练，结果导向',
+        usageCount: '19.7k'
+      },
+      {
+        id: 'text-5',
+        tag: '小红书种草',
+        title: '实战干货笔记排版',
+        prompt: '分享 5 个提升日常工作效率的文字工具，语言亲切，搭配吸引人的标题与 Emoji 排版',
+        style: '高情商，委婉，有情调',
+        usageCount: '36.2k'
+      },
+      {
+        id: 'text-6',
+        tag: '学术润色',
+        title: '论文摘要与结论重构',
+        prompt: '将以下粗糙的研究结论重写为学术规范、逻辑严密且无语法语病的论文摘要总结',
+        style: '专业干练，结果导向',
+        usageCount: '22.0k'
+      }
+    ];
   }
-]);
+});
 
 function applyTemplate(item: ShowcaseItem) {
   emit('apply-template', {
     prompt: item.prompt,
-    duilianType: item.duilianType,
-    length: item.length,
     style: item.style
   });
 }
